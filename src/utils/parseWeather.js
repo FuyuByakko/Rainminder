@@ -8,6 +8,6 @@ export default function parseWeather(weatherInfo) {
     weather: forecast.weather[0].main,
   }))
   const filtered = rainParse.filter( forecast => rainIDs.includes(Math.floor(forecast.weatherCode / 100)));
-  console.log(filtered);
+  // console.log(filtered);
   return filtered
 }
