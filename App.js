@@ -95,7 +95,7 @@ export default class App extends Component {
     );
     const timeToWarn = selectedTime - this.state.warningTime * 60 * 1000;
     console.log("Time To Warn: " + timeToWarn);
-    console.log("Time Now: " + date);
+    console.log("Time Now: " + this.state.date);
 
     setTimeout(() => {
       console.log("WAKE UUUUUUUUUUUUUUUUUP")
