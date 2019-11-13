@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "react": "16.9.0",
     "react-native": "0.61.4",
-    "react-native-get-location": "^1.2.0"
+    "react-native-get-location": "^1.2.0",
+    "react-native-timer": "^1.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
