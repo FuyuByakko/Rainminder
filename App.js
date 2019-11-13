@@ -23,18 +23,18 @@ export default class App extends Component {
     },
     selectedHour: "00",
     selectedMinutes: "00",
-    warningTime: "00"
+    warningTime: "5"
   }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View>
-          <Text>Rain-minder</Text>
+        <View style={styles.title}>
+          <Text style={styles.titleText} >Rain-minder</Text>
         </View>
         <View>
           <Button title="check weather!" onPress={this.getWeather} />
-          <Text> {this.state.weatherToday} </Text>
+          <Text style={styles.weatherResult}> {this.state.weatherToday} </Text>
           {/* {{ for(entry of this.state.rainyDays) {
             <Text>{this.state.rainyDays}</Text>
           }
@@ -42,32 +42,43 @@ export default class App extends Component {
 
           {/* <UserLocation propTest='props passed' /> */}
         </View>
-        <Text> SELECT THE TIME YOU WILL LEAVE HOME: {this.state.selectedHour + ":" + this.state.selectedMinutes}</Text>
-        <View style={{flexDirection:"row"}}>
-          <Picker
-            selectedValue={this.state.selectedHour}
-            style={{height:50, width: 50, backgroundColor: '#f9c2ff', padding: 20, marginVertical: 8, marginHorizontal: 16}}
-            onValueChange={itemValue => this.setState({selectedHour: itemValue})}>
-            <Picker.Item label="00" value="00" />
-            <Picker.Item label="05" value="05" />
-            <Picker.Item label="06" value="06" />
-            <Picker.Item label="07" value="07" />
-            <Picker.Item label="08" value="08" />
-            <Picker.Item label="09" value="09" />
-            <Picker.Item label="23" value="23" />
-          </Picker>
-          <Picker
-            selectedValue={this.state.selectedMinutes}
-            style={{height:50, width: 50, backgroundColor: '#f9c2ff', padding: 20, marginVertical: 8, marginHorizontal: 16}}
-            onValueChange={itemValue => this.setState({selectedMinutes: itemValue})}>
-            <Picker.Item label="01" value="01" />
-            <Picker.Item label="15" value="15" />
-            <Picker.Item label="30" value="30" />
-            <Picker.Item label="45" value="45" />
-          </Picker>
+        <View style={styles.setTimerContainer}>
+
+          <Text style={style.setTimerText}> SELECT THE TIME YOU WILL LEAVE HOME: {this.state.selectedHour + ":" + this.state.selectedMinutes}</Text>
+          <View style={{flexDirection:"row"}}>
+            <Picker
+              selectedValue={this.state.selectedHour}
+              style={{height:50, width: 100, backgroundColor: '#f9c2ff', marginVertical: 8, marginHorizontal: 16}}
+              onValueChange={itemValue => this.setState({selectedHour: itemValue})}>
+              {/* {["05","06","07","08","09","10", "11", "12"].map(value => (<Picker.Item label=`${value}` value=`${value}` />))} */}
+                <Picker.Item label="05" value="05" />
+                <Picker.Item label="06" value="06" />
+                <Picker.Item label="07" value="07" />
+                <Picker.Item label="08" value="08" />
+                <Picker.Item label="09" value="09" />
+                <Picker.Item label="10" value="10" />
+                <Picker.Item label="11" value="11" />
+                <Picker.Item label="12" value="12" />
+                <Picker.Item label="13" value="13" />
+                <Picker.Item label="14" value="14" />
+                <Picker.Item label="15" value="15" />
+                <Picker.Item label="16" value="16" />
+                <Picker.Item label="17" value="17" />
+                <Picker.Item label="18" value="18" />
+            </Picker>
+            <Picker
+              selectedValue={this.state.selectedMinutes}
+              style={{height:50, width: 100, backgroundColor: '#f9c2ff', marginVertical: 8, marginHorizontal: 16}}
+              onValueChange={itemValue => this.setState({selectedMinutes: itemValue})}>
+              <Picker.Item label="01" value="01" />
+              <Picker.Item label="15" value="15" />
+              <Picker.Item label="30" value="30" />
+              <Picker.Item label="45" value="45" />
+            </Picker>
+          </View>
+          <Button title="SET TIMER!" onPress={this.setCheck} />
+          <Text> You will be warned {this.state.warningTime} minutes in advance. </Text>
         </View>
-        <Button title="SET TIMER!" onPress={this.setCheck} />
-        <Text> You will be warned {this.state.warningTime} minutes in advance. </Text>
       </SafeAreaView>
     );
   }
@@ -92,10 +103,12 @@ export default class App extends Component {
       day,
       Number(this.state.selectedHour) + offset,
       Number(this.state.selectedMinutes) + offset,
-    );
-    const timeToWarn = selectedTime - this.state.warningTime * 60 * 1000;
+      );
+    const timeNow = Date.now();
+    const timeToWarn = selectedTime - Number(this.state.warningTime) * 60 * 1000;
     console.log("Time To Warn: " + timeToWarn);
-    console.log("Time Now: " + this.state.date);
+    console.log("Time Now: " + new Date(timeNow);
+    console.log("Wait time: " + (timeToWarn - timeNow))
 
     setTimeout(() => {
       console.log("WAKE UUUUUUUUUUUUUUUUUP")
@@ -120,8 +133,8 @@ export default class App extends Component {
     this.setState({weatherToday: this.state.weatherStatuses.checking});
     try {
       const position = await this.getLoc();
-      console.log("got position: ", position)
-      // const API = process.env.WEATHER_API || openweather;
+      console.info("got position: ", position)
+      const API = process.env.WEATHER_API || openweather;
       // axios ('/weather')
       const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${position.lat}&lon=${position.lon}&APPID=${openweather}`;
       const info = {
@@ -174,11 +187,6 @@ export default class App extends Component {
       console.log(e);
     }
   };
-  // divideWeatherByDay() {
-  //   this.state.rainyDays
-  //   const today = new Date()
-  // }
-
 };
 
 const styles = StyleSheet.create({
@@ -189,4 +197,24 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20
   },
+  title: {
+    width: 500,
+    backgroundColor: "azure",
+    height: 100,
+    marginBottom: 20,
+    alignItems: "center"
+  },
+  titleText: {
+    fontSize: 50
+  },
+  weatherResult: {
+    fontSize: 40,
+    marginVertical: 20
+  },
+  setTimerContainer: {
+    marginVertical: 30
+  }
+  setTimerText: {
+    fontSize: 15,
+  }
 });
