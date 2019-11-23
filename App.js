@@ -35,7 +35,7 @@ export default class App extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.title}>
-          <Text style={styles.titleText} >Rain-minder</Text>
+          <Text style={styles.titleText} >RAINminder</Text>
         </View>
         <View>
           <Button title="check weather!" onPress={this.getWeather} />
@@ -48,7 +48,6 @@ export default class App extends Component {
           {/* <UserLocation propTest='props passed' /> */}
         </View>
         <View style={styles.setTimerContainer}>
-
           <Text style={styles.setTimerText} > 
             SELECT THE TIME YOU WILL LEAVE HOME: 
             {this.state.selectedHour + ':' + this.state.selectedMinutes}
@@ -146,7 +145,7 @@ export default class App extends Component {
 
   renderTimerResult = () => {
     if (this.state.finishedTimer === null) { return }
-    if (timer.timeoutExists(this.state.timerName)) {
+    if (timer.timeoutExists(this.state.timerName) && !this.state.finishedTimer) {
       return <Button title="CLEARTIMER!" onPress={this.clearCheck} />
     } else {
       let text;
